@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "apper": {
+      "httpUrl": "https://mcp.apper.io/v1/connect"
+    }
+  }
+}

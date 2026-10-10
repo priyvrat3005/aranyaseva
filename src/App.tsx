@@ -1,7 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import McpStatusIndicator from './components/McpStatusIndicator';
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -13,9 +16,9 @@ import CheckoutPage from './pages/CheckoutPage';
 import WishlistPage from './pages/WishlistPage';
 import AccountPage from './pages/AccountPage';
 import AboutPage from './pages/AboutPage';
+import ApiPage from './pages/ApiPage';
 import VendorRegisterPage from './pages/VendorRegisterPage';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { ensureMcpConnection } from './lib/data-service';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -25,11 +28,22 @@ function ScrollToTop() {
   return null;
 }
 
+function McpInitializer() {
+  useEffect(() => {
+    // Attempt MCP connection on app load (non-blocking)
+    ensureMcpConnection().catch(() => {
+      // Silently fall back to offline mode
+    });
+  }, []);
+  return null;
+}
+
 function App() {
   return (
     <BrowserRouter>
       <CartProvider>
         <ScrollToTop />
+        <McpInitializer />
         <div className="flex flex-col min-h-screen">
           <Navbar />
           <main className="flex-1">
@@ -46,6 +60,7 @@ function App() {
               <Route path="/account" element={<AccountPage />} />
               <Route path="/account/*" element={<AccountPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/api" element={<ApiPage />} />
               <Route path="/vendor/register" element={<VendorRegisterPage />} />
               <Route path="*" element={
                 <div className="min-h-screen flex items-center justify-center">
@@ -61,6 +76,8 @@ function App() {
           </main>
           <Footer />
         </div>
+        {/* MCP Connection Status Indicator */}
+        <McpStatusIndicator />
       </CartProvider>
     </BrowserRouter>
   );

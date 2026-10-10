@@ -18,6 +18,10 @@ import AccountPage from './pages/AccountPage';
 import AboutPage from './pages/AboutPage';
 import ApiPage from './pages/ApiPage';
 import VendorRegisterPage from './pages/VendorRegisterPage';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminImportPage from './pages/AdminImportPage';
+import AdminCataloguePage from './pages/AdminCataloguePage';
+import NurseryCataloguePage from './pages/NurseryCataloguePage';
 import { ensureMcpConnection } from './lib/data-service';
 
 function ScrollToTop() {
@@ -62,6 +66,10 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/api" element={<ApiPage />} />
               <Route path="/vendor/register" element={<VendorRegisterPage />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/import" element={<AdminImportPage />} />
+              <Route path="/admin/catalogue" element={<AdminCataloguePage />} />
+              <Route path="/nursery/catalogue" element={<NurseryCataloguePage />} />
               <Route path="*" element={
                 <div className="min-h-screen flex items-center justify-center">
                   <div className="text-center">
